@@ -45,3 +45,19 @@ torchrun --nproc_per_node=4 main_distributed.py
 
 # How to Choose the Final Model
 The model will be trained for a certain number of epochs. At each epoch, the model will be evaluated on a validation dataset with the metric of area under the precision-recall curve. After all the epochs, the model corresponding the epoch at which the AUC is highest will be considered as the best model. And then the best model will be tested on the testing dataset. (Note that the best model cannot be determined by evaluating each epoch on the testing dataset, as doing so is essentially "sneakily" make the model fit well just on the testing dataset and not necessarily generalize well.)
+
+# Train-Validate-Test Data Split
+To split the data into training set, validation set and testing set, two methods can be applied:
+
+1. Randomly select 60% of the data for training, 20% for validation, and 20% for testing (Order of the data does not matter.)
+
+2. Sort the data by increasing time. And then use the first 60% for training, the next 20% for validation and the last 20% for testing. (This is to mimic how we usually built a deep learning application in real-world. In real-world, we train and model on the data we have up to a certain date, and then apply the model to run inference on real-time data in the future. So naturally there is time order in the training data and inference data.)
+
+# How to Handle Data Imbalance Issue
+When the data size ratio for class 0 and class 1 is very imbalanced, there are a few options:
+
+1. Downsampling the major class: This might help with the training, however, if too much downsampling is applied, then the population is modified too much, and a model trained on the modified population might perform badly when it's applied to real-world data from the original true population.
+
+2. Use generative models such as VAE, GAN, etc. to artificially generate data points for the minor class to mitigate the imbalance issue.
+
+4. For text data, we can use LLMs to enhance data points for the minor class. For example, in the project if the toxic comments are much fewer than normal comments, then we can feed each toxic comment into an LLM such as ChatGPT or Gemini and instruct the LLM to "expand" or "shorten" or "rephrase" the orginal comment and add these expanded/shortened/rephrased comments to the original data so that the positive class (toxic comment class) have more representations in the training data, so that the imbalance issue can be mitigated. (For validatation and testing, they should still be performed on the original datasets.)
