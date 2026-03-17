@@ -39,6 +39,7 @@ CUDA_VISIBLE_DEVICES="0" python main.py
 For the multi-process job:
 Go to the foler "transformer_distributed" and run the following command:
 
-python --nproc_per_node=4 main_distributed.py
+torchrun --nproc_per_node=4 main_distributed.py
 
+"torchrun" is the utility for running distributed jobs with pytorch (similar to mpirun in HPC).
 
