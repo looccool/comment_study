@@ -29,7 +29,7 @@ utilsEval.py: functions for evaluating the model (at a checkpoint)
 
 main.py: entry point for starting training job for the model
 
-# How to run the code
+# How to Run the Code
 For the one-process job:
 Go to the folder "transformer" and run the following command:
 
@@ -43,3 +43,5 @@ torchrun --nproc_per_node=4 main_distributed.py
 
 "torchrun" is the utility for running distributed jobs with pytorch (similar to mpirun in HPC).
 
+# How to Choose the Final Model
+The model will be trained for a certain number of epochs. At each epoch, the model will be evaluated on a validation dataset with the metric of area under the precision-recall curve. After all the epochs, the model corresponding the epoch at which the AUC is highest will be considered as the best model. And then the best model will be tested on the testing dataset. (Note that the best model cannot be determined by evaluating each epoch on the testing dataset, as doing so is essentially "sneakily" make the model fit well just on the testing dataset and not necessarily generalize well.)
