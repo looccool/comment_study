@@ -1,3 +1,5 @@
+# Transformer Architecture
+
 # Comment Study with AI Models
 This project built a transformer encoder model to classify whether a comment is toxic with the following dataset:
 https://www.kaggle.com/c/jigsaw-unintended-bias-in-toxicity-classification/data
